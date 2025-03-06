@@ -22,35 +22,36 @@ print(amazon_sales.head())
 
 
 #* creating the dim_data table extracting from all csv dataset that contains date fields
-# date_frames = [amazon_sales, international_sales, may_2022, sales_report]
+date_frames = [amazon_sales, international_sales, may_2022, sales_report]
 
-# for df in date_frames:
+for df in date_frames:
     
-#     if "Date"  in df.columns:
-#         df["Date"] = pd.to_datetime(df["Date"])
+    if "Date"  in df.columns:
+        df["Date"] = pd.to_datetime(df["Date"])
 
 
-# all_dates = pd.concat([df[["Date"]] for df in date_frames if "Date" in df.columns]).drop_duplicates()
-# #print(all_dates.head())
-# dim_date = all_dates.copy()
+all_dates = pd.concat([df[["Date"]] for df in date_frames if "Date" in df.columns]).drop_duplicates()
+#print(all_dates.head())
+dim_date = all_dates.copy()
 
-# dim_date["date_id"] = dim_date["Date"].dt.strftime("%Y%m%d").astype(int)
-# dim_date["year"] = dim_date["Date"].dt.year
-# dim_date["month"] = dim_date["Date"].dt.month
-# dim_date["day"] = dim_date["Date"].dt.day
-# dim_date["quarter"] = dim_date["Date"].dt.to_period("Q").astype(str)
-# #dim_date["Weekday"] = dim_date["Date"].dt.day_name()
+dim_date["date_id"] = dim_date["Date"].dt.strftime("%Y%m%d").astype(int)
+dim_date["year"] = dim_date["Date"].dt.year
+dim_date["month"] = dim_date["Date"].dt.month
+dim_date["day"] = dim_date["Date"].dt.day
+dim_date["quarter"] = dim_date["Date"].dt.to_period("Q").astype(str)
+#dim_date["Weekday"] = dim_date["Date"].dt.day_name()
 
-# dim_date = dim_date[["date_id", "Date", "year", "month", "day", "quarter"]]
+dim_date = dim_date[["date_id", "Date", "year", "month", "day", "quarter"]]
 
-# #print(dim_date.head(10))
-# #* will continue rest of the dim_tables :) 
-# #* dim_product table 
+#print(dim_date.head(10))
+#* will continue rest of the dim_tables :) 
+#* dim_product table t
 
-# dim_product = pd.concat([
+#* some test to push to main branch
+dim_product = pd.concat([
     
     
-# ])
+])
 
 
 
