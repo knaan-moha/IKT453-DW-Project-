@@ -1,13 +1,15 @@
-name: Protect Main Branch
+name: Prevent Direct Push to Main
 
-on: push
+on: [push]
+
 jobs:
-  prevent_direct_push:
+  block_direct_push:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Branch
+      - name: Prevent Direct Push
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "Direct push to main is not allowed!"
+          branch_name=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+          if [ "$branch_name" == "main" ]; then
+            echo "🚫 Direct push to 'main' is not allowed! Please use a pull request."
             exit 1
           fi
