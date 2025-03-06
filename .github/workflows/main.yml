@@ -1,0 +1,13 @@
+name: Protect Main Branch
+
+on: push
+jobs:
+  prevent_direct_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Branch
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "Direct push to main is not allowed!"
+            exit 1
+          fi
