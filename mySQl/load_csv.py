@@ -47,7 +47,8 @@ dim_date = dim_date[["date_id", "Date", "year", "month", "day", "quarter"]]
 #* will continue rest of the dim_tables :) 
 #* dim_product table t
 
-#* some test to push to main branch
+
+
 dim_product = pd.concat([
     
     
