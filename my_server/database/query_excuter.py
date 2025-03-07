@@ -1,6 +1,6 @@
-from my_server.DB.mongoDB_connector import MongoDBConnector
-from my_server.DB.mysql_connector import MySQLConnector
-from my_server.DB.neo4j_connector import Neo4jConnector
+from my_server.database.mongoDB_connector import MongoDBConnector
+from my_server.database.mysql_connector import MySQLConnector
+from my_server.database.neo4j_connector import Neo4jConnector
 
 
 def get_mysql_data(query, params=None):
@@ -34,17 +34,17 @@ def fetch_data_from_db(db_type, query_params):
     """
     if db_type == 'mysql':
         query = query_params.get('query')
-        params = query_params.get('params', None)
+        params = query_params.get('params', [])
         return get_mysql_data(query, params)
 
     elif db_type == 'mongo':
         collection = query_params.get('collection')
-        filter_query = query_params.get('filter_query')
+        filter_query = query_params.get('filter_query', {})
         return get_mongo_data(collection, filter_query)
 
     elif db_type == 'neo4j':
         query = query_params.get('query')
-        params = query_params.get('params', None)
+        params = query_params.get('params', {})
         return get_neo4j_data(query, params)
 
     else:
