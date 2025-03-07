@@ -1,57 +1,45 @@
 import pandas as pd 
+import mysql.connector
+from mysql.connector import Error
+from dotenv import load_dotenv
+import sqlalchemy
+import os 
+load_dotenv("/Users/zekariamohamed/Vbox_share/IKT453-Dw-Project/.env")
 
+DATABASE = os.getenv("DATABASE")
+DB_USER = os.getenv("DB_USER")
+PASSWORD = os.getenv("PASSWORD")
+HOST = os.getenv("HOST")
+PORT = os.getenv("PORT")
+
+print(DATABASE, DB_USER, PASSWORD, HOST, PORT)
+
+print(f"mysql+mysqlconnector://{DB_USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
 
 #* loading csv files
 
-amazon_sales = pd.read_csv("./Data/Amazon Sale Report.csv")
-cloud_warehouse = pd.read_csv("./Data/Cloud Warehouse Compersion Chart.csv")
-expenses = pd.read_csv("./Data/Expense IIGF.csv")
-international_sales = pd.read_csv("./Data/International sale Report.csv")
-may_2022 = pd.read_csv("./Data/International sale Report.csv")
-pl_march_2021 = pd.read_csv("./Data/P  L March 2021.csv")
-sales_report = pd.read_csv("./Data/Sale Report.csv")
+amazon_df = pd.read_csv("./Data/Amazon Sale Report.csv")
+international_df = pd.read_csv("./Data/International sale Report.csv")
+sale_report_df = pd.read_csv("./Data/Sale Report.csv")
 
-# print(amazon_sales.head())
-# print(cloud_warehouse.head())
-# print(expenses.head())
-# print(international_sales.head())
-# print(may_2022.head())
-# print(pl_march_2021.head())
-# print(sales_report.head())
+#* removing the null values
+amazon_df = amazon_df.dropna()
+international_df = international_df.dropna()
+sale_report_df = sale_report_df.dropna()
 
+print(amazon_df.head())
+dim_product = amazon_df[['SKU', 'Style', 'Category', 'Size', 'ASIN']].drop_duplicates()
+dim_product = pd.concat([dim_product, international_df[['SKU', 'Style', 'Size']].drop_duplicates()], ignore_index=True)
+dim_product = pd.concat([dim_product, sale_report_df[['SKU Code', 'Design No.', 'Category', 'Size']].drop_duplicates()], ignore_index=True)
 
+# Rename columns for consistency
+dim_product.rename(columns={'SKU Code': 'SKU', 'Design No.': 'Style'}, inplace=True)
 
-#* creating the dim_data table extracting from all csv dataset that contains date fields
-date_frames = [amazon_sales, international_sales, may_2022, sales_report]
+# Add a primary key
+dim_product.insert(0, 'Product_Key', range(1, 1 + len(dim_product)))
+dim_product = dim_product.loc[:, ~dim_product.columns.duplicated()]
 
-for df in date_frames:
-    
-    if "Date"  in df.columns:
-        df["Date"] = pd.to_datetime(df["Date"])
-
-
-all_dates = pd.concat([df[["Date"]] for df in date_frames if "Date" in df.columns]).drop_duplicates()
-#print(all_dates.head())
-dim_date = all_dates.copy()
-
-dim_date["date_id"] = dim_date["Date"].dt.strftime("%Y%m%d").astype(int)
-dim_date["year"] = dim_date["Date"].dt.year
-dim_date["month"] = dim_date["Date"].dt.month
-dim_date["day"] = dim_date["Date"].dt.day
-dim_date["quarter"] = dim_date["Date"].dt.to_period("Q").astype(str)
-#dim_date["Weekday"] = dim_date["Date"].dt.day_name()
-
-dim_date = dim_date[["date_id", "Date", "year", "month", "day", "quarter"]]
-
-print(dim_date.head(10))
-
-#* will continue rest of the dim_tables :) 
-
-
-
-
-
-
-
-
-
+#* connecting to the database
+engine = sqlalchemy.create_engine(f"mysql+mysqlconnector://{DB_USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}")
+dim_product.to_sql('dim_product', con=engine, if_exists='append', index=False)
+print("Data loaded to MySQL")
