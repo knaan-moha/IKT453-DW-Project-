@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
-import sqlalchemy 
+
+
 def prepare_dw():
     conn = None
     create_db = "CREATE DATABASE IF NOT EXISTS DW"
