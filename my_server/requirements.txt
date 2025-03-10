@@ -1,0 +1,7 @@
+python-dotenv
+flask
+mysql-connector-python
+pymysql
+flask-mysql
+pymongo
+neo4j
