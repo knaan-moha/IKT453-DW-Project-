@@ -1,7 +1,7 @@
 import React from "react";
 import QueryCard from "./QueryCard";
 
-const queries = [
+const queriesText = [
     { text: "What is the monthly sales revenue trend for each product category and sales channel?", category: "Sales Performance" },
     { text: "Which top 5 SKUs generated the highest revenue in Q1 2022?", category: "Sales Performance" },
     { text: "What is the total gross amount for sales in January 2022?", category: "Sales Performance" },
@@ -27,14 +27,14 @@ const queries = [
     { text: "Calculate the number of canceled or returned orders.", category: "Operational Efficiency" }
   ];
 
-const QueryList = () => {
-  return (
-    <div>
-      {queries.map((query, index) => (
-        <QueryCard key={index} text={query.text} category={query.category} />
-      ))}
-    </div>
-  );
+  const QueryList = ({ queries, dbType }) => {
+    return (
+        <div>
+            {queriesText.map((query, index) => (
+                <QueryCard key={index} text={query.text} category={query.category} dbType={dbType} />
+            ))}
+        </div>
+    );
 };
 
 export default QueryList;
