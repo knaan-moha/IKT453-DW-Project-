@@ -1,0 +1,5 @@
+fulfillment_id,Fulfilment,Sales_Channel_,ship-service-level
+1,Merchant,Amazon.in,Standard
+2,Amazon,Amazon.in,Expedited
+3,Amazon,Amazon.in,Standard
+4,Amazon,Non-Amazon,Standard
