@@ -27,8 +27,7 @@ services:
       - "23306:3306"
 
   phpmyadmin-odb:
-    image: arm64v8/phpmyadmin
-
+    image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: mysql-odb-server
       PMA_USER: root
@@ -37,8 +36,7 @@ services:
       - "15000:80"
 
   phpmyadmin-dw:
-    image: arm64v8/phpmyadmin
-
+    image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: mysql-dw-server
       PMA_USER: root
