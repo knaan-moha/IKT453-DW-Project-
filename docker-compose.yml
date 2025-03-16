@@ -27,7 +27,8 @@ services:
       - "23306:3306"
 
   phpmyadmin-odb:
-    image: phpmyadmin/phpmyadmin
+    image: arm64v8/phpmyadmin
+
     environment:
       PMA_HOST: mysql-odb-server
       PMA_USER: root
@@ -36,7 +37,8 @@ services:
       - "15000:80"
 
   phpmyadmin-dw:
-    image: phpmyadmin/phpmyadmin
+    image: arm64v8/phpmyadmin
+
     environment:
       PMA_HOST: mysql-dw-server
       PMA_USER: root
@@ -80,7 +82,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: secret
-  
+
   mongo-express:
     image: mongo-express
     container_name: mongo-express
@@ -93,7 +95,6 @@ services:
       ME_CONFIG_BASICAUTH: false
     ports:
       - "8081:8081"
-
 
   neo4j:
     image: neo4j:latest
