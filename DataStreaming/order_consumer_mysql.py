@@ -1,0 +1,54 @@
+from kafka import  KafkaConsumer
+from dotenv import load_dotenv
+import mysql.connector
+import json 
+import os
+load_dotenv()
+
+mysql_host = os.getenv("MYSQL_HOST")
+mysql_user = os.getenv("MYSQL_USER")
+mysql_password = os.getenv("MYSQL_PASSWORD") 
+mysql_database = os.getenv("MYSQL_DATABASE")
+mysql_port = os.getenv("MYSQL_PORT")
+
+conn = mysql.connector.connect(
+    port = mysql_port, 
+    host = mysql_host, 
+    user = mysql_user, 
+    password = mysql_password, 
+    database = mysql_database
+)
+
+cursor = conn.cursor()
+
+consumer = KafkaConsumer("order",
+                        bootstrap_servers='127.0.0.1:29092',
+                        api_version=(2,0,2), 
+                        value_deserializer=lambda x: json.loads(x.decode("utf-8")),
+                        auto_offset_reset='earliest', 
+                        enable_auto_commit=True,
+)
+
+print("Waiting for new order!")
+for  message in consumer: 
+        order = message.value
+        insert_order = """
+            INSERT INTO FactSales (order_id, date_id, customer_id, product_id, fulfillment_id, 
+                                promotion_id, status_id, courier_status_id, quantity, amount, 
+                                currency, B2B, `fulfilled-by`)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+       
+    
+        values = (
+            order["order_id"], order["date_id"], order["customer_id"], order["product_id"], 
+            order["fulfillment_id"], order["promotion_id"], order["status_id"], order["courier_status_id"], 
+            order["quantity"], order["amount"], order["currency"], order["B2B"], order["fulfilled-by"]
+        )
+    
+        cursor.execute(insert_order, values)
+        conn.commit()
+        print(f"Inserted order into mySql: {order['order_id']}")
+    
+
+conn.close()
