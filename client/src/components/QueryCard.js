@@ -16,7 +16,7 @@ const QueryCard = ({ text, category, queryUrl }) => {
                 throw new Error("Failed to fetch data");
             }
 
-            const result = await response.json(); // Assuming the response is JSON
+            const result = await response.json();
             console.log("Fetched result:", result);
 
             // Navigate to ResultPage with query and fetched result

@@ -24,8 +24,7 @@ const ResultPage = () => {
                 <tbody>
                     {result.map((row, index) => (
                         <tr key={index}>
-                            {/* Display the 'name' attribute from the row */}
-                            <td>{row.n ? row.n.name : row.name}</td>
+                            <td>row</td>
                         </tr>
                     ))}
                 </tbody>
