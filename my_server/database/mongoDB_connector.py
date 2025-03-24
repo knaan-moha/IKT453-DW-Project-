@@ -1,24 +1,37 @@
+import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
-import os
+from pymongo.errors import ConnectionFailure
 
 # Load environment variables from .env file
 load_dotenv()
 
 class MongoDBConnector:
     def __init__(self):
-        # Retrieve environment variables
-        self.host = os.getenv('MONGO_HOST')
-        self.port = os.getenv('MONGO_PORT')
-        self.user = os.getenv('MONGO_USER')
-        self.password = os.getenv('MONGO_PASSWORD')
-        self.database = os.getenv('MONGO_DATABASE')
+        # Load MongoDB settings from environment variables
+        mongo_uri = os.getenv("MONGO_URI")
+        mongo_db = os.getenv("MONGO_DATABASE", "my_mongo_database")
 
-        self.client = MongoClient(f'mongodb://{self.user}:{self.password}@{self.host}:{self.port}')
-        self.db = self.client[self.database]
+        try:
+            # Establish connection
+            self.client = MongoClient(mongo_uri)
+            self.db = self.client[mongo_db]
+            # Test connection
+            self.client.admin.command('ping')
+        except ConnectionFailure as e:
+            print(f"MongoDB Connection Error: {e}")
+            self.client = None  # Prevent further queries if connection fails
 
-    def execute_query(self, collection, filter_query):
-        return list(self.db[collection].find(filter_query))
+    def execute_query(self, collection_name, query={}):
+        if not self.client:
+            return {"error": "MongoDB connection is not available"}
+        
+        # Check if collection exists
+        if collection_name not in self.db.list_collection_names():
+            return {"error": f"Collection '{collection_name}' does not exist"}
+
+        return list(self.db[collection_name].find(query))
 
     def close(self):
-        self.client.close()
+        if self.client:
+            self.client.close()
