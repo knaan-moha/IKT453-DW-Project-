@@ -27,14 +27,19 @@ const queriesText = [
     { text: "Calculate the number of canceled or returned orders.", category: "Operational Efficiency" }
   ];
 
-  const QueryList = ({ queries, dbType }) => {
+  const QueryList = ({ queries }) => {
     return (
-        <div>
-            {queriesText.map((query, index) => (
-                <QueryCard key={index} text={query.text} category={query.category} dbType={dbType} />
-            ))}
-        </div>
+      <div>
+        {queries.map((query, index) => (
+          <QueryCard 
+            key={index} 
+            text={query.text} 
+            category={query.category} 
+            queryUrl={query.queryUrl} 
+          />
+        ))}
+      </div>
     );
-};
-
-export default QueryList;
+  };
+  
+  export default QueryList;

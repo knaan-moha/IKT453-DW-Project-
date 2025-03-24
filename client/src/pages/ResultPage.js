@@ -6,15 +6,41 @@ const ResultPage = () => {
     const queryParams = new URLSearchParams(location.search);
 
     const query = queryParams.get("query");
-    const dbType = queryParams.get("db");
     const data = queryParams.get("data") ? JSON.parse(decodeURIComponent(queryParams.get("data"))) : null;
+
+    // Render the data as rows in a table
+    const renderRows = () => {
+        if (!data) return <p>No data received</p>;
+
+        const result = data || [];
+
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {result.map((row, index) => (
+                        <tr key={index}>
+                            {/* Display the 'name' attribute from the row */}
+                            <td>{row.n ? row.n.name : row.name}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
+    };
 
     return (
         <div>
             <h2>Query Result</h2>
             <p><strong>Query:</strong> {query}</p>
-            <p><strong>Database:</strong> {dbType}</p>
-            <pre>{data ? JSON.stringify(data, null, 2) : "No data received"}</pre>
+            {/* <div>
+                {renderRows()}
+            </div> */}
+            <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
     );
 };
