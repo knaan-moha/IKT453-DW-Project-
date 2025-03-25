@@ -78,8 +78,8 @@ services:
     volumes:
       - mongodb-data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root  # Admin username
-      MONGO_INITDB_ROOT_PASSWORD: secret  # Admin password
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
     command: ["mongod", "--auth"]  # Enabling authentication
 
   mongo-express:
@@ -125,7 +125,7 @@ services:
       FLASK_ENV: development
       FLASK_APP: my_server/main.py
 
-      # MySQL ODB (Optional: only if you're also using it)
+      # MySQL ODB
       MYSQL_ODB_HOST: mysql-odb-server
       MYSQL_ODB_PORT: 3306
       MYSQL_ODB_USER: root

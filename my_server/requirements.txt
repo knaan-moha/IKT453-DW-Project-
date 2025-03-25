@@ -6,3 +6,4 @@ pymysql
 flask-mysql
 pymongo
 neo4j
+watchdog

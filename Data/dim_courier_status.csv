@@ -1,0 +1,5 @@
+courier_status_id,courier_status_name
+1,unknown
+2,Shipped
+3,Cancelled
+4,Unshipped
