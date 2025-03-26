@@ -8,11 +8,11 @@ load_dotenv()
 class MySQLConnector:
     def __init__(self):
         # Retrieve environment variables
-        self.host = os.getenv('MYSQL_HOST')
-        self.port = os.getenv('MYSQL_PORT')
-        self.user = os.getenv('MYSQL_USER')
-        self.password = os.getenv('MYSQL_PASSWORD')
-        self.database = os.getenv('MYSQL_DATABASE')
+        self.host = os.getenv('MYSQL_DW_HOST')
+        self.port = os.getenv('MYSQL_DW_PORT')
+        self.user = os.getenv('MYSQL_DW_USER')
+        self.password = os.getenv('MYSQL_DW_PASSWORD')
+        self.database = os.getenv('MYSQL_DW_DATABASE')
 
         self.conn = mysql.connector.connect(
             host=self.host,

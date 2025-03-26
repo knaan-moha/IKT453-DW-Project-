@@ -1,0 +1,8 @@
+{
+  "short_name": "IKT453",
+  "name": "IKT453 Team Data",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

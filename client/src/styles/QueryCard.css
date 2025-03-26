@@ -1,0 +1,30 @@
+.queryCard {
+    border: 2px solid #3498db;
+    padding: 4px;
+    margin: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: white;
+  }
+  
+  .queryCard:hover {
+    box-shadow: 10px 10px 10px rgba(16, 12, 12, 0.1);
+  }
+  
+  .category-tag {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #36404a;
+    padding: 4px 8px;
+    border-radius: 4px;
+    width: fit-content;
+  }
+  
+  .query-text {
+    font-size: 16px;
+    color: #333;
+  }
+  
