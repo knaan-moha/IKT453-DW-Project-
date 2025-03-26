@@ -25,7 +25,7 @@ consumer = KafkaConsumer("order",
                         bootstrap_servers='127.0.0.1:29092',
                         api_version=(2,0,2), 
                         value_deserializer=lambda x: json.loads(x.decode("utf-8")),
-                        auto_offset_reset='earliest', 
+                        auto_offset_reset='latest', 
                         enable_auto_commit=True,
 )
 

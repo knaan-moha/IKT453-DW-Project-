@@ -31,7 +31,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
 
-order_csv_path  = "../DataStreaming/orders.csv"
+order_csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DataStreaming/orders.csv")
 
 
 
