@@ -1,4 +1,4 @@
-version: "3"
+# version: "3"
 
 services:
   web-server:
@@ -80,6 +80,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: secret
+    command: ["mongod", "--auth"]  # Enabling authentication
 
   mongo-express:
     image: mongo-express
@@ -88,9 +89,10 @@ services:
       - mongodb
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root  # MongoDB admin username
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret  # MongoDB admin password
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin  # Authentication database
+      ME_CONFIG_BASICAUTH: false  # Optional: Set to true if you need basic auth for Mongo Express
     ports:
       - "8081:8081"
 
@@ -122,26 +124,43 @@ services:
     environment:
       FLASK_ENV: development
       FLASK_APP: my_server/main.py
+
+      # MySQL ODB
       MYSQL_ODB_HOST: mysql-odb-server
       MYSQL_ODB_PORT: 3306
       MYSQL_ODB_USER: root
       MYSQL_ODB_PASSWORD: secret
       MYSQL_ODB_DB: my_odb_database
 
+      # MySQL DW
       MYSQL_DW_HOST: mysql-dw-server
       MYSQL_DW_PORT: 3306
       MYSQL_DW_USER: root
       MYSQL_DW_PASSWORD: secret
       MYSQL_DW_DB: my_dw_database
 
+      # MongoDB
       MONGO_URI: mongodb://root:secret@mongodb:27017/
       MONGO_DB: my_mongo_database
 
+      # Neo4j
       NEO4J_URI: bolt://neo4j:7687
       NEO4J_USER: neo4j
       NEO4J_PASSWORD: StrongPassword123
 
     command: flask run --host=0.0.0.0 --port=5000
+  client:
+    build:
+      context: ./client
+    container_name: react_client
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+    command: npm start
+    depends_on:
+      - my_server
 
 volumes:
   mysql-odb-data:
