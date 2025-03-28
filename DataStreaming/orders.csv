@@ -1,0 +1,11 @@
+order_id,date_id,customer_id,product_id,fulfillment_id,promotion_id,status_id,courier_status_id,quantity,amount,currency,B2B,fulfilled-by
+405-8078784-5731545,1,1,1,1,1,1,1,0,5000,INR,False,Easy Ship
+171-9198151-1101146,1,2,2,1,2,2,2,1,5001,INR,False,Easy Ship
+171-9198151-1101146,1,2,2,1,2,2,2,1,5001,INR,False,Easy Ship
+171-9198151-1101146,1,2,2,1,2,2,2,1,5001,INR,False,Easy Ship
+171-9198151-1101146,1,5,2,1,2,2,2,1,5001,INR,False,Easy Ship
+171-9198151-1101146,1,5,2,1,2,2,2,1,5001,INR,False,Easy Ship
+
+
+
+
