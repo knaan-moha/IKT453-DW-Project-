@@ -10,8 +10,13 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
 
+<<<<<<< Updated upstream
 
 order_text_path  = "../DataStreaming/orders.txt"
+=======
+order_csv_path = "C:/Users/doris/Desktop/Data management/IKT453-DW-Project-/DataStreaming/orders.csv"
+
+>>>>>>> Stashed changes
 
 
 
