@@ -3,10 +3,13 @@ from my_server.database.query_excuter import fetch_data_from_db
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
+import logging
+import traceback
 
 load_dotenv()
-
+logger = logging.getLogger(__name__)
 analytics_api = Blueprint('analytics_api', __name__)
+
 
 
 @analytics_api.route('/analytics', methods=['GET']) 
@@ -42,7 +45,9 @@ def get_analytics():
         result = fetch_data_from_db(db_type, query_params)
         return jsonify({"DB": db_type, "query_params": query_params, "result": result})
     except Exception as e:
-        analytics_api.logger.error(f"Error fetching analytics: {str(e)}")
+        traceback.print_exc()
+        logger.error(f"Error fetching analytics: {str(e)}")
+        #analytics_api.logger.error(f"Error fetching analytics: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 @analytics_api.route('/analytics/mongodb/', methods=['GET'])

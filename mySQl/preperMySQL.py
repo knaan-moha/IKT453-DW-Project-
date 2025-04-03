@@ -5,17 +5,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-mysql_host = os.getenv("MYSQL_HOST")
-mysql_user = os.getenv("MYSQL_USER")
-mysql_password = os.getenv("MYSQL_PASSWORD")
-mysql_database = os.getenv("MYSQL_DATABASE")
-mysql_port = os.getenv("MYSQL_PORT")
+mysql_host = os.getenv("MYSQL_DW_HOST")
+mysql_user = os.getenv("MYSQL_DW_USER")
+mysql_password = os.getenv("MYSQL_DW_PASSWORD")
+mysql_database = os.getenv("MYSQL_DW_DATABASE")
+mysql_port = os.getenv("MYSQL_DW_PORT")
 
 
 def prepare_dw():
     conn = None
-    create_db = "CREATE DATABASE IF NOT EXISTS mysql_dw"
-    use_dw = "USE mysql_dw"
+    create_db = "CREATE DATABASE IF NOT EXISTS mysql_dw_database"
+    use_dw = "USE mysql_dw_database"
     
   
     
