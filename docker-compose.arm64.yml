@@ -12,7 +12,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: secret
     volumes:
-      - mysql-odb-data:/var/lib/mysql_odb
+      - mysql-odb-data:/var/lib/mysql
     ports:
       - "13306:3306"
 
@@ -24,6 +24,7 @@ services:
       - mysql-dw-data:/var/lib/mysql
     ports:
       - "23306:3306"
+    command: --port=3306
 
   phpmyadmin-odb:
     image: arm64v8/phpmyadmin
@@ -33,6 +34,8 @@ services:
       PMA_PASSWORD: secret
     ports:
       - "15000:80"
+    depends_on:
+      - mysql-odb-server
 
   phpmyadmin-dw:
     image: arm64v8/phpmyadmin
@@ -42,6 +45,8 @@ services:
       PMA_PASSWORD: secret
     ports:
       - "25000:80"
+    depends_on:
+      - mysql-dw-server
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -125,21 +130,17 @@ services:
       MYSQL_ODB_PORT: 3306
       MYSQL_ODB_USER: root
       MYSQL_ODB_PASSWORD: secret
-      MYSQL_ODB_DB: my_odb_database
-
+      MYSQL_ODB_DB: mysql_odb_database
       MYSQL_DW_HOST: mysql-dw-server
-      MYSQL_DW_PORT: 3306
+      MYSQL_DW_PORT: 3306 
       MYSQL_DW_USER: root
       MYSQL_DW_PASSWORD: secret
-      MYSQL_DW_DB: my_dw_database
-
+      MYSQL_DW_DB: mysql_dw_database
       MONGO_URI: mongodb://root:secret@mongodb:27017/
       MONGO_DB: my_mongo_database
-
       NEO4J_URI: bolt://neo4j:7687
       NEO4J_USER: neo4j
       NEO4J_PASSWORD: StrongPassword123
-
     command: flask run --host=0.0.0.0 --port=5000
 
 volumes:

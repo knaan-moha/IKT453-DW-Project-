@@ -1,32 +1,46 @@
+# my_server/database/mysql_connector.py
 import mysql.connector
 from dotenv import load_dotenv
 import os
+import logging
 
-# Load environment variables from .env file
 load_dotenv()
-
+logger = logging.getLogger(__name__)
 class MySQLConnector:
     def __init__(self):
-        # Retrieve environment variables
-        self.host = os.getenv('MYSQL_DW_HOST')
-        self.port = os.getenv('MYSQL_DW_PORT')
-        self.user = os.getenv('MYSQL_DW_USER')
-        self.password = os.getenv('MYSQL_DW_PASSWORD')
-        self.database = os.getenv('MYSQL_DW_DATABASE')
+        # Print debug information
+        host = os.getenv('MYSQL_DW_HOST')
+        port = os.getenv('MYSQL_DW_PORT')
+        user = os.getenv('MYSQL_DW_USER')
+        password = os.getenv('MYSQL_DW_PASSWORD')
+        database = os.getenv('MYSQL_DW_DATABASE', os.getenv('MYSQL_DW_DB'))
 
-        self.conn = mysql.connector.connect(
-            host=self.host,
-            port=self.port,
-            user=self.user,
-            password=self.password,
-            database=self.database
-        )
-        self.cursor = self.conn.cursor(dictionary=True)
+        print(f"DEBUG - Connecting to MySQL at {host}:{port}, DB: {database}") 
+        try:
+            
+            self.conn = mysql.connector.connect(
+                host=host,
+                port=int(port),  
+                user=user,
+                password=password,
+                database=database
+            )
+            self.cursor = self.conn.cursor(dictionary=True)
+            print(f"Connection established to MySQL at {host}:{port}")
+        except Exception as e:
+            print(f"Connection error: {str(e)}")
+            logger.error(f"MySQL connection error: {str(e)}")
+            raise
 
     def execute_mysql_query(self, query, params=None):
         self.cursor.execute(query, params or ())
         return self.cursor.fetchall()
 
     def close(self):
-        self.cursor.close()
-        self.conn.close()
+        if hasattr(self, 'cursor') and self.cursor:
+            self.cursor.close()
+        if hasattr(self, 'conn') and self.conn:
+            self.conn.close()
+        
+
+
