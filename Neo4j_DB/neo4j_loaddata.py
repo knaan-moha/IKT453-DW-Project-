@@ -58,6 +58,10 @@ for file in csv_files:
     except Exception as e:
         print(f"❌ Error processing {file}: {e}")
 
+
+
+
+
 # Close Neo4j connection
 driver.close()
 print("\n🎉 All CSV files successfully uploaded to Neo4j!")
