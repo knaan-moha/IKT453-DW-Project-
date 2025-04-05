@@ -4,8 +4,8 @@ order_id,date_id,customer_id,product_id,fulfillment_id,promotion_id,status_id,co
 171-9198151-1101146,1,2,2,1,2,2,2,1,5001,INR,False,Easy Ship
 171-9198151-1101146,1,2,2,1,2,2,2,1,5001,INR,False,Easy Ship
 171-9198151-1101146,1,5,2,1,2,2,2,1,5001,INR,False,Easy Ship
+171-9198151-1101146,1,5,2,1,2,2,4,1,5001,INR,False,Easy Ship
 171-9198151-1101146,1,5,2,1,2,2,2,1,5001,INR,False,Easy Ship
-
 
 
 
