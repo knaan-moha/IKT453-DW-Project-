@@ -9,23 +9,24 @@ from datetime import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import pandas as pd
+from neo4j import GraphDatabase
 # --- Configuration ---
 order_csv_path = "C:/Users/doris/Desktop/Data management/IKT453-DW-Project-/DataStreaming/orders.csv"
 watch_path = os.path.dirname(order_csv_path)
-# --- MySQL connection ---
-mysql_host = os.getenv("MYSQL_HOST")
-mysql_user = os.getenv("MYSQL_USER")
-mysql_password = os.getenv("MYSQL_PASSWORD")
-mysql_database = os.getenv("MYSQL_DATABASE")
-mysql_port = os.getenv("MYSQL_PORT")
-conn = mysql.connector.connect(
-    port=mysql_port,
-    host=mysql_host,
-    user=mysql_user,
-    password=mysql_password,
-    database=mysql_database
+
+
+# --- Neo4j connection ---
+neo4j_uri = os.getenv("NEO4J_URI")
+neo4j_user = os.getenv("NEO4J_USER")
+neo4j_password = os.getenv("NEO4J_PASSWORD")
+database_name = "neo4j"  # Default Neo4j database
+
+# Connect to Neo4j
+driver = GraphDatabase.driver(
+    neo4j_uri,
+    auth=(neo4j_user, neo4j_password)
 )
-cursor = conn.cursor()
+
 # --- Kafka producer ---
 producer = KafkaProducer(
     bootstrap_servers='127.0.0.1:29092',
@@ -34,10 +35,12 @@ producer = KafkaProducer(
 # --- Helper: get latest timestamp from DB ---
 def get_last_streamed_timestamp():
     try:
-        cursor.execute("SELECT MAX(timestamp) FROM FactSales")
-        return cursor.fetchone()[0] or "1970-01-01 00:00:00"
-    except mysql.connector.Error as e:
-        print(f"⚠️ Warning: Could not get last timestamp from DB: {e}")
+        with driver.session(database=database_name) as session:
+            result = session.run("MATCH (f:FactSales) RETURN MAX(f.timestamp) AS max_timestamp")
+            record = result.single()
+            return record["max_timestamp"] or "1970-01-01 00:00:00"
+    except Exception as e:
+        print(f"⚠️ Warning: Could not get last timestamp from Neo4j: {e}")
         return "1970-01-01 00:00:00"
 # --- File watcher handler ---
 class OrderFileHandler(FileSystemEventHandler):
