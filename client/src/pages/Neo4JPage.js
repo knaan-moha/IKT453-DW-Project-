@@ -3,8 +3,8 @@ import QueryList from "../components/QueryList";
 
 const neo4jQueries = [
   {
-    text: `What are the top 10 product category and sales channel combinations by monthly sales revenue?`,
-    category: "Sales Performance",
+    text: "Get all data from test table",
+    category: "Test Query 1",
     queryUrl:
       "http://localhost:5000/analytics?DB=neo4j&query=MATCH%20(n)%20RETURN%20n",
   },
