@@ -20,27 +20,8 @@ queries = [
     "MATCH (n:dim_promotion) RETURN n LIMIT 25",
     "MATCH (n:dim_status) RETURN n LIMIT 25",
     "MATCH (n:fact_sales) RETURN n LIMIT 25",
-    // ---------------------
-    // Fact-Dimension Matching Queries
-    // ---------------------
 
-    // Match fact_sales to DimCustomer
-    "MATCH (f:fact_sales) MATCH (c:DimCustomer {customer_id: f.customer_id}) MERGE (f)-[:HAS_CUSTOMER]->(c)",
 
-    // Match fact_sales to dim_courier_status
-    "MATCH (f:fact_sales) MATCH (cs:dim_courier_status {courier_status_id: f.courier_status_id}) MERGE (f)-[:HAS_COURIER_STATUS]->(cs)",
-
-    // Match fact_sales to dim_date
-    "MATCH (f:fact_sales) MATCH (d:dim_date {date_id: f.date_id}) MERGE (f)-[:HAS_DATE]->(d)",
-
-    // Match fact_sales to dim_fulfillment
-    "MATCH (f:fact_sales) MATCH (fu:dim_fulfillment {fulfillment_id: f.fulfillment_id}) MERGE (f)-[:HAS_FULFILLMENT]->(fu)",
-
-    // Match fact_sales to dim_product
-    "MATCH (f:fact_sales) MATCH (p:dim_product {product_id: f.product_id}) MERGE (f)-[:HAS_PRODUCT]->(p)",
-
-    // Match fact_sales to dim_status
-    "MATCH (f:fact_sales) MATCH (s:dim_status {status_id: f.status_id}) MERGE (f)-[:HAS_STATUS]->(s)"
 ]
 
 # Function to run and print results
