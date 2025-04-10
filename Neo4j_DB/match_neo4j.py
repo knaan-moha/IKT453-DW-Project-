@@ -20,6 +20,8 @@ queries = [
     "MATCH (n:dim_promotion) RETURN n LIMIT 25",
     "MATCH (n:dim_status) RETURN n LIMIT 25",
     "MATCH (n:fact_sales) RETURN n LIMIT 25",
+
+
 ]
 
 # Function to run and print results
