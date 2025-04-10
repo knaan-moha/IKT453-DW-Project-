@@ -6,7 +6,7 @@ const mongoQueries = [
     text: `What are the top 10 product category and sales channel combinations by monthly sales revenue?`,
     category: "Customer & Market Insights",
     queryUrl:
-      "http://localhost:5000/analytics/mongodb/?pipeline=[%20{%20%22$group%22:%20{%20%22_id%22:%20{%20%22year%22:%20%22$date.year%22,%20%22month%22:%20%22$date.month%22,%20%22category%22:%20%22$product.Category%22,%20%22sales_channel%22:%20%22$fulfillment.Sales_Channel_%22%20},%20%22monthly_sales%22:%20{%20%22$sum%22:%20%22$amount%22%20}%20}%20},%20{%20%22$sort%22:%20{%20%22monthly_sales%22:%20-1%20}%20},%20{%20%22$limit%22:%2010%20},%20{%20%22$project%22:%20{%20%22_id%22:%200,%20%22year%22:%20%22$_id.year%22,%20%22month%22:%20%22$_id.month%22,%20%22category%22:%20%22$_id.category%22,%20%22sales_channel%22:%20%22$_id.sales_channel%22,%20%22monthly_sales%22:%201%20}%20}%20]",
+      "http://localhost:5000/analytics/mongodb/?pipeline=[{\"$group\":{\"_id\":{\"year\":\"$date.year\",\"month\":\"$date.month\",\"category\":\"$product.Category\",\"sales_channel\":\"$fulfillment.Sales_Channel\"},\"monthly_sales\":{\"$sum\":\"$amount\"}}},{\"$sort\":{\"monthly_sales\":-1}},{\"$limit\":10},{\"$project\":{\"_id\":0,\"category\":\"$_id.category\",\"month\":\"$_id.month\",\"monthly_sales\":1,\"sales_channel\":\"$_id.sales_channel\",\"year\":\"$_id.year\"}}]",
   },
   {
   text: "Who are the top 10 most loyal or active customers based on the number of orders?",
@@ -77,7 +77,7 @@ const mongoQueries = [
   {
   text: `What is the total gross sales revenue generated in April 2022 across all channels and products?`,
   category: "Sales Performance",
-  queryUrl: "http://localhost:5000/analytics/mongodb/?pipeline=[%20{%20%22$match%22:%20{%20%22date.year%22:%202022,%20%22date.month%22:%204%20}%20},%20{%20%22$group%22:%20{%20%22_id%22:%20{%20%22SKU%22:%20%22$product.SKU%22,%20%22Category%22:%20%22$product.Category%22,%20%22Size%22:%20%22$product.Size%22,%20%22Style%22:%20%22$product.Style%22,%20%22Sales_Channel_%22:%20%22$fulfillment.Sales_Channel_%22%20},%20%22total_gross_sales%22:%20{%20%22$sum%22:%20%22$amount%22%20}%20}%20},%20{%20%22$sort%22:%20{%20%22total_gross_sales%22:%20-1%20}%20},%20{%20%22$limit%22:%2010%20},%20{%20%22$project%22:%20{%20%22_id%22:%200,%20%22Category%22:%20%22$_id.Category%22,%20%22SKU%22:%20%22$_id.SKU%22,%20%22Size%22:%20%22$_id.Size%22,%20%22Style%22:%20%22$_id.Style%22,%20%22Sales_Channel_%22:%20%22$_id.Sales_Channel_%22,%20%22Total_Sales%22:%20%22$total_gross_sales%22%20}%20}%20]"
+  queryUrl: "http://localhost:5000/analytics/mongodb/?pipeline=[%20{%20%22$match%22:%20{%20%22date.year%22:%202022,%20%22date.month%22:%204%20}%20},%20{%20%22$group%22:%20{%20%22_id%22:%20{%20%22Category%22:%20%22$product.Category%22,%20%22Sales_Channel_%22:%20%22$fulfillment.Sales_Channel_%22%20},%20%22total_sales%22:%20{%20%22$sum%22:%20%22$amount%22%20}%20}%20},%20{%20%22$sort%22:%20{%20%22total_sales%22:%20-1%20}%20},%20{%20%22$limit%22:%2010%20},%20{%20%22$project%22:%20{%20%22_id%22:%200,%20%22Category%22:%20%22$_id.Category%22,%20%22Sales_Channel_%22:%20%22$_id.Sales_Channel_%22,%20%22Total_Sales%22:%20%22$total_sales%22%20}%20}%20]"
   },
   {
     text: `Which top 10 SKUs generated the highest gross sales revenue in April 2022, considering their category, size, style, and sales channel?`,

@@ -25,7 +25,7 @@ const mysqlQueries = [
     text: "What is the total gross sales revenue generated in April 2022 across all channels and products?",
     category: "Sales Performance",
     queryUrl:
-      "http://0.0.0.0:5000/analytics?DB=mysql&query=SELECT%20%0A%09p.category%2C%20%0A%20%20%20%20f.Sales_Channel_%2C%0A%20%20%20%20SUM%28fs.amount%29%20AS%20total_sales%0AFROM%20FactSales%20fs%0AJOIN%20DimDate%20d%20ON%20fs.date_id%20%3D%20d.date_id%0AJOIN%20DimProduct%20p%20ON%20fs.product_id%20%3D%20p.product_id%20%0AJOIN%20DimFulfillment%20f%20ON%20fs.fulfillment_id%20%3D%20f.fulfillment_id%0AWHERE%20d.year%20%3D%202022%20AND%20d.month%20%3D%204%0AGROUP%20BY%20p.category%2C%20f.Sales_Channel_%3B",
+      "http://0.0.0.0:5000/analytics?DB=mysql&query=SELECT%20%0A%09p.category%2C%20%0A%20%20%20%20SUM%28fs.amount%29%20AS%20total_sales%0AFROM%20FactSales%20fs%0AJOIN%20DimDate%20d%20ON%20fs.date_id%20%3D%20d.date_id%0AJOIN%20DimProduct%20p%20ON%20fs.product_id%20%3D%20p.product_id%0AJOIN%20DimFulfillment%20f%20ON%20fs.fulfillment_id%20%3D%20f.fulfillment_id%0AWHERE%20d.year%20%3D%202022%20AND%20d.month%20%3D%204%0AGROUP%20BY%20p.category%0AORDER%20BY%20total_sales%20DESC",
   },
 
   {
