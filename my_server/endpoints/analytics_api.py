@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import logging
 import traceback
+import json
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -56,11 +57,23 @@ def get_all_analytics():
     mongo_db = os.getenv("MONGO_DATABASE")
     client = MongoClient(mongo_uri)
     db = client[mongo_db]
-    # TODO: fix mongodb endpoint later to be more dynamic
 
-    collection_name = "test"  # Fixed collection name for testing
-    data = list(db[collection_name].find({}))  # No filters, returns all documents
+    collection_name = "fact_sales"
+    collection = db[collection_name]
 
-    return jsonify({"message": f"Data from MongoDB: {data}"})
+    try:
+        pipeline_param = request.args.get('pipeline')
+        if not pipeline_param:
+            return jsonify({"error": "Missing 'pipeline' query parameter"}), 400
+
+        pipeline = json.loads(pipeline_param)
+        if not isinstance(pipeline, list):
+            return jsonify({"error": "Pipeline must be a JSON array"}), 400
+
+        result = list(collection.aggregate(pipeline))
+        return jsonify({"DB": "mongodb", "collection_name": collection_name, "result": result})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
