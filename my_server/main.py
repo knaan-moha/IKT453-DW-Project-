@@ -13,7 +13,7 @@ app.register_blueprint(analytics_api)
 
 @app.route('/')
 def hello():
-    return "Hello, World!"
+    return "Hello, From Team Data!"
 
 @app.route('/debug-env')
 def debug_env():
