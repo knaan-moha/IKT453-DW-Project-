@@ -17,14 +17,14 @@ mysql_port = os.getenv("MYSQL_DW_PORT")
 engine = create_engine(f"mysql+mysqlconnector://{mysql_user}:{mysql_password}@{mysql_host}:{mysql_port}/{mysql_database}")
 
 csv_files = {
-    "DimCustomer": "./Data/dim_customer.csv", 
-    "DimDate": "./Data/dim_date.csv", 
-    "DimProduct": "./Data/dim_product.csv", 
-    "DimFulfillment": "./Data/dim_fulfillment.csv", 
-    "DimPromotion": "./Data/dim_promotion.csv", 
-    "DimOrderStatus": './Data/dim_status.csv',
-    "DimCourierStatus":  './Data/dim_courier_status.csv',
-    "FactSales": './Data/fact_sales.csv'
+    "DimCustomer": "../Data/dim_customer.csv", 
+    "DimDate": "../Data/dim_date.csv", 
+    "DimProduct": "../Data/dim_product.csv", 
+    "DimFulfillment": "../Data/dim_fulfillment.csv", 
+    "DimPromotion": "../Data/dim_promotion.csv", 
+    "DimOrderStatus": '../Data/dim_status.csv',
+    "DimCourierStatus":  '../Data/dim_courier_status.csv',
+    "FactSales": '../Data/fact_sales.csv'
 
     
 }
@@ -37,7 +37,7 @@ for table, file in csv_files.items():
                             "fulfillment_id": "int", "promotion_id": "int", "status_id": "int",
                             "courier_status_id": "int"}, errors='ignore')
 
-        df.to_sql(table, con=engine, if_exists="append", index=False)
+        df.to_sql(table, con=engine, if_exists="replace", index=False)
         print(f"Loaded csv files in mySql {table}")
     except Exception as e:
         print(f"Error loading: {e}")
