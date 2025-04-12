@@ -50,13 +50,6 @@ const mysqlQueries = [
   },
 
   {
-    text: "Which products has never been sold in any report?",
-    category: "Inventory & Product Analysis",
-    queryUrl:
-      "http://0.0.0.0:5000/analytics?DB=mysql&query=SELECT%0A%09p.product_id%2C%20%0A%20%20%20%20p.Category%2C%20%0A%20%20%20%20p.SKU%2C%20%0A%20%20%20%20p.Size%2C%20%0A%20%20%20%20p.Style%0AFROM%20DimProduct%20p%0ALEFT%20JOIN%20FactSales%20fs%20ON%20p.product_id%20%3D%20fs.product_id%0AWHERE%20fs.product_id%20is%20NULL%3B%2",
-  },
-
-  {
     text: "Which top 5 product sizes are the most frequently ordered among items that have been shipped?",
     category: "Inventory & Product Analysis",
     queryUrl:
