@@ -31,7 +31,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
 
-order_csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../DataStreaming/orders.csv")
+order_csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../MySQL_Data_Streaming/orders.csv")
 
 
 
@@ -109,7 +109,7 @@ def process_new_orders():
 #* watchdog observer for monitoring the file changes continuously 
 observer = Observer()
 event_handler = OrderFileHandler()
-observer.schedule(event_handler, path="../DataStreaming", recursive=False)
+observer.schedule(event_handler, path="", recursive=False)
 print("Order producer is now watching for changes in order.csv...")
 observer.start()
 
