@@ -11,7 +11,7 @@ from watchdog.events import FileSystemEventHandler
 import pandas as pd
 
 # --- Configuration ---
-order_csv_path = "C:/Users/doris/Desktop/Data management/IKT453-DW-Project-/DataStreaming/orders.csv"
+order_csv_path = "../MySQL_Data_Streaming/orders.csv"
 watch_path = os.path.dirname(order_csv_path)
 
 # --- MySQL connection ---
