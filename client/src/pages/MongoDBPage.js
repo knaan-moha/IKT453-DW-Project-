@@ -15,25 +15,21 @@ const mongoQueries = [
     [
       {
         "$group": {
-          "_id": "$customer_id",
-          "total_orders": { "$sum": 1 },
+          "_id": "$customer.customer_id",
+          "total_orders": { "$addToSet": "$order_id" },
           "total_spent": { "$sum": "$amount" }
         }
       },
       {
-        "$sort": { "total_orders": -1 }
-      },
-      {
-        "$limit": 10
-      },
-      {
         "$project": {
           "_id": 0,
-          "customer_id": "$_id",
-          "total_orders": 1,
-          "total_spent": { "$round": ["$total_spent", 3] }
+          "Customer Id": "$_id",
+          "Total Orders": { "$size": "$total_orders" },
+          "Total Spent": { "$round": ["$total_spent", 3] }
         }
-      }
+      },
+      { "$sort": { "Total Orders": -1 } },
+      { "$limit": 10 }
     ]`
   },
 
