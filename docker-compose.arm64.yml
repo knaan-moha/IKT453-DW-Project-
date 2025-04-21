@@ -132,7 +132,7 @@ services:
       MYSQL_ODB_PASSWORD: secret
       MYSQL_ODB_DB: mysql_odb_database
       MYSQL_DW_HOST: mysql-dw-server
-      MYSQL_DW_PORT: 3306 
+      MYSQL_DW_PORT: 3306
       MYSQL_DW_USER: root
       MYSQL_DW_PASSWORD: secret
       MYSQL_DW_DB: mysql_dw_database
@@ -142,6 +142,18 @@ services:
       NEO4J_USER: neo4j
       NEO4J_PASSWORD: StrongPassword123
     command: flask run --host=0.0.0.0 --port=5000
+  client:
+    build:
+      context: ./client
+    container_name: react_client
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+    command: npm start
+    depends_on:
+      - my_server
 
 volumes:
   mysql-odb-data:
